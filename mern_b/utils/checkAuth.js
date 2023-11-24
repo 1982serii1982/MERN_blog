@@ -13,7 +13,7 @@ export default (req, res, next) => {
 
   if (cleanToken) {
     try {
-      const decoded = jwt.verify(cleanToken, "secret123");
+      const decoded = jwt.verify(cleanToken, process.env.JWT_SECRET);
       req.userId = decoded._id;
       next();
     } catch (err) {

@@ -76,12 +76,12 @@ const initialState = {
     items: [],
     itemsSorted: [],
     comments: [],
-    status: "loading",
+    status: "Loading",
     deleting: false,
   },
   tags: {
     items: [],
-    status: "loading",
+    status: "Loading",
   },
 };
 

@@ -133,7 +133,8 @@ const AddPost = () => {
       setText(data.text);
       setFilePath(data.imagePath ? data.imagePath : "");
       setFilePreview(
-        data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ""
+        //data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ""
+        data.imageUrl ? `api.mern2.sergiucotruta.co.uk${data.imageUrl}` : ""
       );
     };
 

@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
 import path from "path";
+import dotenv from "dotenv";
 import cors from "cors";
 import fs from "fs";
 import { promisify } from "util";
@@ -19,11 +20,10 @@ import * as PostController from "./controllers/PostController.js";
 import * as CommentController from "./controllers/CommentController.js";
 
 const unlinkAsync = promisify(fs.unlink);
+dotenv.config();
 
 mongoose
-  .connect(
-    "mongodb+srv://1982serii1982:wwwwww@cluster0.5uj0hgm.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGO)
   .then(() => {
     console.log("Conection success");
   })
@@ -65,10 +65,34 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(express.json());
-app.use(cors());
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const whitelist = ["http://localhost:5173"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || whitelist.indexOf(origin) === -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
+    credentials: true,
+  })
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 app.use("/upload", express.static(path.join(__dirname, "uploads")));
 //express.static exposes a directory or a file to a particular
 //URL so it's contents can be publicly accessed.
+//Cind se va face in front end setarea caii catre imagine
+//in atributul src alt tagului img, ea va arata ceva de genul (src="http://localhost:4444/upload/numele fisierului generat")
+//pai cind pe server va veni astfel de adresa pentru servire, anume de ea se va ocupa
+//acest "app.use" si pentru asta el va directiona cautarea fisierului solicitat in directoriul "uploads",
+//ca si cum ar preface adresa in (src="http://localhost:4444/uploads/numele fisierului generat")
 
 //AUTH
 
@@ -86,8 +110,9 @@ app.post(
   ) /*'image' este numele campului din forma sub care va veni imaginea */,
   (req, res) => {
     res.json({
-      url: `/upload/${req.file.filename}`,
-      path: req.file.path,
+      url: `/upload/${req.file.filename}`, //aceasta este o parte din calea catre imagine pe server
+      // care va fi alipita la numele serverului ce deserveste frontendul (http://localhost:4444)
+      path: req.file.path, //asta este calea propriu-zisa (pe partea serverului) unde este stocata imaginea
     });
   }
 );

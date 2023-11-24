@@ -23,7 +23,7 @@ export const register = async (req, res) => {
         exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
         _id: newUser._id,
       },
-      "secret123"
+      process.env.JWT_SECRET
       // {
       //   expiresIn: "30d",
       // }
@@ -79,7 +79,7 @@ export const login = async (req, res) => {
         exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
         _id: user._id,
       },
-      "secret123"
+      process.env.JWT_SECRET
       //{
       //expiresIn: "30d",
       //expiresIn: 60,

@@ -37,7 +37,8 @@ const CustomTabPanel = ({
               imagePath={Boolean(item.imagePath) ? item.imagePath : ""}
               imageUrl={
                 Boolean(item.imageUrl)
-                  ? `http://localhost:4444${item.imageUrl}`
+                  ? //? `http://localhost:4444${item.imageUrl}`
+                    `api.mern2.sergiucotruta.co.uk${item.imageUrl}`
                   : "https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
               }
               user={item.author}
