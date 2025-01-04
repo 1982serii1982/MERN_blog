@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Box, Grid2 } from "@mui/material";
 
 import Post from "../Post";
 
@@ -13,9 +13,8 @@ const CustomTabPanel = ({
   data,
 }) => {
   return (
-    <Grid
-      xs={8}
-      item
+    <Grid2
+      size={8}
       role="tabpanel"
       hidden={value !== index}
       id={`tabpanel-${index}`}
@@ -37,9 +36,8 @@ const CustomTabPanel = ({
               imagePath={Boolean(item.imagePath) ? item.imagePath : ""}
               imageUrl={
                 Boolean(item.imageUrl)
-                  ? //? `http://localhost:4444${item.imageUrl}`
-                    `http://api.mern2.sergiucotruta.co.uk${item.imageUrl}`
-                  : "https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+                  ? `${import.meta.env.VITE_API_URL}${item.imageUrl}`
+                  : null
               }
               user={item.author}
               createdAt={item.createdAt}
@@ -53,12 +51,10 @@ const CustomTabPanel = ({
               //In acest caz lipseste 'isFullPost' ceeea ce implicit face ca valoare lui sa fie 'false'
             />
           ) : (
-            <div key={i} className={styles.root}>
-              There is no more posts to show
-            </div>
+            <div key={i}>There is no more posts to show</div>
           );
         })}
-    </Grid>
+    </Grid2>
   );
 };
 

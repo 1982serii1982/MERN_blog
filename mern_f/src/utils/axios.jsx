@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  //baseURL: "http://localhost:4444",
-  baseURL: "http://api.mern2.sergiucotruta.co.uk",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 instance.interceptors.request.use((req) => {

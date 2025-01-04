@@ -66,9 +66,7 @@ const upload = multer({ storage });
 
 app.use(express.json());
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const whitelist = ["http://localhost:5173"];
+const whitelist = ["http://localhost:517323"];
 
 app.use(
   cors({
@@ -83,7 +81,6 @@ app.use(
     credentials: true,
   })
 );
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.use("/upload", express.static(path.join(__dirname, "uploads")));
 //express.static exposes a directory or a file to a particular

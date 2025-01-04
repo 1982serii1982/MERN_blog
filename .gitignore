@@ -1,3 +1,36 @@
 mern_b/node_modules
 mern_b/.env
+mern_b/docker-compose.*
+mern_b/Dockerfile
+mern_b/localhost.conf
+
+
+# Logs
+mern_f/logs
+mern_f/*.log
+mern_f/npm-debug.log*
+mern_f/yarn-debug.log*
+mern_f/yarn-error.log*
+mern_f/pnpm-debug.log*
+mern_f/lerna-debug.log*
+
 mern_f/node_modules
+mern_f/dist
+mern_f/dist-ssr
+mern_f/*.local
+
+# Editor directories and files
+mern_f/.vscode/*
+mern_f/!.vscode/extensions.json
+mern_f/.idea
+mern_f/.DS_Store
+mern_f/*.suo
+mern_f/*.ntvs*
+mern_f/*.njsproj
+mern_f/*.sln
+mern_f/*.sw?
+
+.gitignore
+mern_f/.env.*
+mern_f/eslint.*
+mern_f/vite.*

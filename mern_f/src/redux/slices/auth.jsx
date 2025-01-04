@@ -54,7 +54,55 @@ const initialState = {
   data: null,
   status: "Loading",
   error: null,
+  mode: "light",
 };
+
+/* Cum functioneaza Redux store ==> https://www.digitalocean.com/community/tutorials/how-to-manage-state-in-react-with-redux
+
+
+Acest "createSlice()" returneaza un obiect ("authSlice") ce contine state-ul initial (ce corespunde acestui slice, adica state-ul 
+slice-ului "auth", ca mai apoi sa fie utilizat in fisierul store.jsx. Unde prin "configureStore" sa se creeze un state general
+in care se combina state-urile din mai multe slice-uri(daca exista)). 
+
+
+In cazul nostru avem 2 slice-uri "auth.jsx" si "post.jsx", care genereaza doua reduce-re finale "postReducer = postSlice.reducer" si 
+"authReducer = authSlice.reducer" [care in sine este o combinatie de reducere mai mici (mai vechi se folosea acest "combineReducers()" 
+acuma acest lucru este efectuat automat de "createSlice"), care in cazul nostru
+se regasesc sub property-ul "reducers" si  "extraReducers"]. Totodata aceste reducere finale "postReducer" si "authReducer" mai aduc cu ele la pachet si
+state-urile corspunzatoare fiecarui slice, care mai apoi, in fisierul "store.jsx", sa fie combinate prin intermediul functiei
+"configureStore" (se creeze un state general):
+
+{
+  posts: state din slice-ul post.jsx, 
+  auth: state din slice-ul auth.jsx,
+}
+
+si sint atribuite property-urilor "posts" si "auth", care apoi sa fie accesate mai usor (stiindule property-ul sub carea fost 
+inregistrat "auth" sau "posts") in codul principal prin intermediul hook-ului "useSelector":
+
+export const store = configureStore({
+  reducer: {
+    posts: postReducer, 
+    auth: authReducer,
+  },
+});
+
+ acest "store" apoi este propulsat catre toate componentele din aplicatie cu ajutorul
+ componentei <Provider/>
+  "
+    Like with context, every child component will be able to access the store without any additional props. To access items in 
+    your Redux store, use a Hook called useSelector from the react-redux package. The useSelector Hook takes a selector function 
+    as an argument. The selector function will receive the state of your store as an argument that you will use to return the field you want.
+  " 
+
+Acest "createSlice()" genereaza action-urile, in cazul nostru unul din action pe care il avem este action-ul "logout"
+ce se triggereaza in momentul cind in codul principal se face dispatch(logout()). Triggerat, acest action are "action.type" = "auth/logout" si 
+"action.payload" = parametrul ce poate fi transmis prin actionul "logout" (Ex. logout(param)). Exact dupa ce sa facut acest dispatch, programul
+se duce in storul nostru creat de "configureStore" si cauta in reducerele din acest store daca nu cumva este ceva ce poate sa prelucreze "action.type" = "auth/logout".
+Si in final gaseste ca este asa portiune in reducer-ul final care poate prelucra acest "action.type", plus i se transmite si "action.payload" (daca este), pentru
+a putea face schimbarile in state-ul general din store-ul nostru (acest "store" apoi este propulsat catre toate componentele din aplicatie cu ajutorul
+ componentei <Provider/>, daca intr-adevar in state-ul general sau produs careva schimabri).
+*/
 
 export const authSlice = createSlice({
   name: "auth",
@@ -117,6 +165,6 @@ export const authSlice = createSlice({
 
 export const authSelector = (state) => state.auth;
 
-export const { logout } = authSlice.actions;
+export const { logout, test } = authSlice.actions;
 
 export default authSlice.reducer;

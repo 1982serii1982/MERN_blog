@@ -138,13 +138,40 @@ const Register = () => {
               }
             },
           })}
-          InputProps={{
-            //prin acest props se transmit acele propsuri catre input
-            //care normal nu pot fi transmise prin intermediul lui "TextField",
-            //adica "TextField" nu le are in caracteristicele sale din API.
-            //Daca variant="outlined" din "TextField" atunci se vor transmite catre componentul "OutlinedInput"
-            //Daca variant="filled" din "TextField" atunci se vor transmite catre componentul "FilledInput"
-            //Daca variant="standard" din "TextField" atunci se vor transmite catre componentul "Input"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    disabled={passInput}
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
+
+          /* Acest InputProps de mai jos a fost deprecat si nu se mai va folosi, dar ideea lui a fost de a transmite propsuri
+          (de exemplu "endAdornment", care normal nu pot fi transmise prin intermediul lui <TextField/> ) catre componentul MUI 
+          in care trebuie sa se transforme <TextField/> dupa rendering, in dependenta de atributul "variant"
+          ---> Daca variant="outlined" din "TextField" atunci se vor transmite catre componentul "OutlinedInput"
+          ---> Daca variant="filled" din "TextField" atunci se vor transmite catre componentul "FilledInput"
+          ---> Daca variant="standard" din "TextField" atunci se vor transmite catre componentul "Input".
+          De exemplu vrem sa punem <TextField/> cu variant="outlined", pentru ca el sa se transforme in <OutlinedInput/>
+          (care la rindul lui dupa rendering se va transforma in <input/>), uitindune in caracteristicele API ale lui
+          <TextField/> noi observam ca lipseste propsul "endAdornment" care ar putea fi transmis prin intermediul lui <TextField/>
+          catre <OutlinedInput/> (care la rindul lui are asa tip de props). Si aici ne vine in ajutor "InputProps" prin care deja
+          putem transmite acest props.
+          Cam acelasi sens il are propsul "inputProps" a lui <TextField/>, dar care ne ajuta sa transmitem direct atribute (pe care normal 
+          le poate avea tagul <input/> Ex: form, disabled, name. etc., dar care nu pot fi transmise prin careva propsuri ale lui <TextField/>) lui tagul <input/>
+          (in care se transforma <TextField/> dupa rendering ).
+          */
+          /*InputProps={{
             endAdornment: (
               <InputAdornment position="start">
                 <IconButton
@@ -158,7 +185,7 @@ const Register = () => {
                 </IconButton>
               </InputAdornment>
             ),
-          }}
+          }}*/
         />
         {/* *************************************************************************** */}
         {/* <FormControl
